@@ -1,0 +1,33 @@
+plugins {
+    id("java")
+    id("io.spring.dependency-management") version "1.1.0"
+    id("org.springframework.boot") version "3.1.1"
+}
+
+group = "org.study"
+version = "1.0-SNAPSHOT"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    maven {
+        url = uri("https://artifactory.raiffeisen.ru/artifactory/repo1")
+        credentials {
+            username = project.findProperty("artifactoryUser") as String
+            password = project.findProperty("artifactoryPassword") as String
+        }
+    }
+}
+
+dependencies {
+    implementation ("org.springframework.boot:spring-boot-starter-web")
+    testImplementation ("org.springframework.boot:spring-boot-starter-test")
+    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+}
+
+tasks.test {
+    useJUnitPlatform()
+}
